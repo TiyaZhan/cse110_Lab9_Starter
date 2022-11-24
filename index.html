@@ -69,21 +69,22 @@
     </form>
 
     <section id="error-btns">
-      <button>Console Log</button>
-      <button>Console Error</button>
-      <button>Console Count</button>
-      <button>Console Warn</button>
-      <button>Console Assert</button>
-      <button>Console Clear</button>
-      <button>Console Dir</button>
-      <button>Console dirxml</button>
-      <button>Console Group Start</button>
-      <button>Console Group End</button>
-      <button>Console Table</button>
-      <button>Start Timer</button>
-      <button>End Timer</button>
-      <button>Console Trace</button>
-      <button>Trigger a Global Error</button>
+      <button id="log">Console Log</button>
+      <button id="error">Console Error</button>
+      <button id="count">Console Count</button>
+      <button id="warn">Console Warn</button>
+      <button id="assert">Console Assert</button>
+      <button id="clear">Console Clear</button>
+      <button id="dir">Console Dir</button>
+      <button id="dirxml">Console dirxml</button>
+      <button id="start">Console Group Start</button>
+      <button id="end">Console Group End</button>
+      <button id="table">Console Table</button>
+      <button id="start_timer">Start Timer</button>
+      <button id="end_timer">End Timer</button>
+      <button id="trace">Console Trace</button>
+      <button id="global_error">Trigger a Global Error</button>
+      <button id="try">Try/Catch/Finally</button>
     </section>
   </main>
 
@@ -95,13 +96,130 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      try{
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      }catch(err){
+        if (err instanceof SyntaxError){
+          alert(err.message + " Check input.");
+        }
+        else{
+          throw err;
+        }
+      }
+      
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
     // Start your code here
     // You may move this JS to another file if you wish
+    errorBtns[0].addEventListener("click", (event)=>{
+      event.preventDefault();
+      console.log("Console log button pressed");
+    })
+    errorBtns[1].addEventListener("click", (event)=>{
+      event.preventDefault();
+      console.error("Error button pressed");
+    })
+    errorBtns[2].addEventListener("click", (event)=>{
+      event.preventDefault();
+      console.count();
+    })
+    errorBtns[3].addEventListener("click", (event)=>{
+      event.preventDefault();
+      console.warn("warn");
+    })
+    errorBtns[4].addEventListener("click", (event)=>{
+      event.preventDefault();
+      const x = 5;
+      const y = 3;
+      const reason = 'x is expected to be less than y';
+      console.assert(x < y, {x, y, reason});  
+    })
+    errorBtns[5].addEventListener("click", (event)=>{
+      event.preventDefault();
+      console.clear();
+    })
+    errorBtns[6].addEventListener("click", (event)=>{
+      event.preventDefault();
+      console.dir(document.head);
+    })
+    errorBtns[7].addEventListener("click", (event)=>{
+      event.preventDefault();
+      console.dirxml(document);
+    })
+    errorBtns[8].addEventListener("click", (event)=>{
+      event.preventDefault();
+      const label = 'Random';
+      console.group(label);
+  
+    })
+    errorBtns[9].addEventListener("click", (event)=>{
+      event.preventDefault();
+      console.groupEnd('Random')
+    })
+    errorBtns[10].addEventListener("click", (event)=>{
+      event.preventDefault();
+      var people = [
+        {
+          first: 'René',
+          last: 'Magritte',
+        },
+        {
+          first: 'Chaim',
+          last: 'Soutine',
+          birthday: '18930113',
+        },
+        {
+          first: 'Henri',
+          last: 'Matisse',
+        }
+      ];
+      console.table(people);
+    })
+    errorBtns[11].addEventListener("click", (event)=>{
+      event.preventDefault();
+      console.time();
+    })
+    errorBtns[12].addEventListener("click", (event)=>{
+      event.preventDefault();
+      console.timeEnd();
+    })
+    errorBtns[13].addEventListener("click", (event)=>{
+      event.preventDefault();
+      const first = () => { second(); };
+      const second = () => { third(); };
+      const third = () => { fourth(); };
+      const fourth = () => { console.trace(); };
+      first();
+    })
+    errorBtns[14].addEventListener("click", (event)=>{
+      event.preventDefault();
+      a = a + 1;
+    })
+    class noSuchElement extends Error{
+      constructor(message){
+        super(message);
+        this.name = "noSuchElement";
+      }
+    }
+    errorBtns[15].addEventListener("click", (event)=>{
+      
+      try{
+        document.getElementById("error-btns").removeChild(errorBtns[15]);
+        document.getElementById("try").setAttribute("id", "none");
+      }
+      catch(err){
+        throw new noSuchElement("The element selected does not exist!");
+      }
+      finally{
+        const tryButton = document.createElement("button");
+        tryButton.innerHTML = "Try/Catch/Finally";
+        document.getElementById("error-btns").appendChild(tryButton);
+      }
+    })
+
+
   </script>
 </body>
 
