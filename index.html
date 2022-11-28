@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+<script>
+  window.TrackJS && TrackJS.install({ 
+    token: "8275bacce3ba42bb86a794e9d3f8eb45"
+    // for more configuration options, see https://docs.trackjs.com
+  });
+</script>
+                          
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -195,6 +202,8 @@
     })
     errorBtns[14].addEventListener("click", (event)=>{
       event.preventDefault();
+      TrackJS.track('Testing TrackJS!');
+                        
       a = a + 1;
     })
     class noSuchElement extends Error{
@@ -219,6 +228,9 @@
       }
     })
 
+    window.addEventListener("error", (event)=>{
+      console.log("Some global error is triggered");
+    })
 
   </script>
 </body>
